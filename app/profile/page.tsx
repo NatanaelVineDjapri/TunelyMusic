@@ -5,6 +5,7 @@ import { fetchProfile } from "@/services/profileService";
 import Image from "next/image";
 import Link from "next/link";
 import { getSongDetail } from "@/services/iTunesServices";
+import { useRouter } from "next/navigation";
 
 interface Bookmark {
   id: number;
@@ -28,9 +29,13 @@ const ProfilePage: React.FC = () => {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [songs, setSongs] = useState<Song[]>([]);
   const [error, setError] = useState("");
-
+  const router = useRouter();
+  const goToEditProfile = () => {
+    router.push("/profile/edit");
+  };
   useEffect(() => {
     const username = localStorage.getItem("username");
+
     if (!username) {
       setError("User not logged in");
       return;
@@ -41,7 +46,6 @@ const ProfilePage: React.FC = () => {
         setUser(data.user);
         setBookmarks(data.bookmarks);
 
-        // fetch detail tiap lagu
         const songsData: Song[] = [];
         for (const b of data.bookmarks) {
           try {
@@ -71,7 +75,8 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="container" style={{ marginTop: "18vh" }}>
       <div className="card p-5 rounded-3 shadow d-flex flex-column flex-md-row gap-5">
-        <div className="col-md-4 d-flex justify-content-center align-items-start mt-3">
+        <div className="col-md-4 d-flex flex-column justify-content-center align-items-center mt-3">
+
           <Image
             src={"/images/pfp1.jpg"}
             alt="Profile Image"
@@ -79,16 +84,23 @@ const ProfilePage: React.FC = () => {
             height={400}
             className="rounded-4 bg-success p-3"
           />
+          <button
+            className="btn btn-outline-success d-flex align-items-center gap-2 mt-4"
+            onClick={goToEditProfile}
+            style={{ borderRadius: "12px", padding: "0.5rem 1rem" }}
+          >
+            Edit Profile
+          </button>
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-8 pe-5">
           <h2 className="mb-3">Profile User</h2>
           <h4 className="mb-3">Username: {user.username}</h4>
           <h4>Bookmarks</h4>
           <div
             className="d-grid gap-3"
             style={{
-              gridTemplateColumns: "repeat(3, 1fr)", // 3 kolom
+              gridTemplateColumns: "repeat(3, 1fr)",
               marginTop: "1rem",
             }}
           >

@@ -1,15 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaRegBookmark, FaBookmark, FaInfoCircle } from "react-icons/fa";
 import Link from "next/link";
+import { addBookmark, removeBookmark } from "@/services/bookmarkService";
 
 interface SongCardProps {
   song: any;
 }
 
+interface Song {
+  trackId: number;
+  trackName: string;
+  artistName: string;
+  collectionName: string;
+  primaryGenreName: string;
+  releaseDate: string;
+  trackPrice: number;
+  currency: string;
+  country: string;
+  trackNumber: string;
+  artworkUrl100: string;
+  previewUrl: string;
+}
+
 const SongCard: React.FC<SongCardProps> = ({ song }) => {
   const imageUrl = song.artworkUrl100.replace("100x100bb.jpg", "400x400bb.jpg");
   const [bookmarked, setBookmarked] = useState(false);
+
+  useEffect(() => {
+    if (!song) return;
+    const saved = localStorage.getItem(`bookmark_${song.trackId}`);
+    setBookmarked(saved === "true");
+  }, [song]); // perhatikan dependency-nya song, bukan trackId
+
+  const toggleBookmark = async () => {
+    const username = localStorage.getItem("username");
+    if (!username) return alert("Silakan login terlebih dahulu!");
+    if (!song) return;
+
+    const trackKey = `bookmark_${song.trackId}`;
+    const trackIdStr = song.trackId.toString();
+
+    try {
+      if (bookmarked) {
+        await removeBookmark(trackIdStr, username);
+        setBookmarked(false);
+        localStorage.setItem(trackKey, "false");
+      } else {
+        await addBookmark(trackIdStr, username);
+        setBookmarked(true);
+        localStorage.setItem(trackKey, "true");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
 
   return (
     <div
@@ -32,11 +77,12 @@ const SongCard: React.FC<SongCardProps> = ({ song }) => {
         }}
         onClick={(e) => {
           e.stopPropagation();
-          setBookmarked(!bookmarked);
+          toggleBookmark();
         }}
       >
         {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
       </div>
+
       <Image
         src={imageUrl}
         width={400}

@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const [username, setUsername] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const user = localStorage.getItem("username");
@@ -13,7 +15,7 @@ const Navbar: React.FC = () => {
 
   const handleProfileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!username) {
-      e.preventDefault(); // cegah navigasi
+      e.preventDefault(); 
       alert("Silakan login dulu untuk mengakses profile");
     }
   };
@@ -22,6 +24,7 @@ const Navbar: React.FC = () => {
     localStorage.removeItem("username");
     setUsername(null);
     alert("Berhasil logout");
+    router.push("/");
   };
 
   return (
