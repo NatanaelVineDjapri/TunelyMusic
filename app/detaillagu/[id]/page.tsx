@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { getSongDetail } from "@/services/iTunesServices";
-import { useRouter } from "next/navigation";
+import { addBookmark, removeBookmark } from "@/services/bookmarkService";
 
 interface Song {
   trackId: number;
@@ -25,11 +25,10 @@ interface Song {
 const DetailLaguPage: React.FC = () => {
   const { id } = useParams();
   const trackId = Array.isArray(id) ? id[0] : id;
-
   const [song, setSong] = useState<Song | null>(null);
-  const [bookmarked, setBookmarked] = useState<boolean>(false);
-
+  const [bookmarked, setBookmarked] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     if (!trackId) return;
     getSongDetail(trackId).then((res) => setSong(res));
@@ -41,11 +40,26 @@ const DetailLaguPage: React.FC = () => {
     setBookmarked(saved === "true");
   }, [trackId]);
 
-  const toggleBookmark = () => {
-    if (!trackId) return;
-    const newState = !bookmarked;
-    setBookmarked(newState);
-    localStorage.setItem(`bookmark_${trackId}`, newState ? "true" : "false");
+  const toggleBookmark = async () => {
+    const username = localStorage.getItem("username");
+    if (!username) return alert("Silakan login terlebih dahulu!");
+    if (!song) return;
+
+    const trackIdStr = song.trackId.toString();
+
+    try {
+      if (bookmarked) {
+        await removeBookmark(trackIdStr, username);
+        setBookmarked(false);
+        localStorage.setItem(`bookmark_${trackId}`, "false");
+      } else {
+        await addBookmark(trackIdStr, username);
+        setBookmarked(true);
+        localStorage.setItem(`bookmark_${trackId}`, "true");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   if (!song) return <p className="text-white text-center mt-5">Loading...</p>;
@@ -72,7 +86,7 @@ const DetailLaguPage: React.FC = () => {
                 style={{ display: "inline-block", backgroundColor: "white" }}
               >
                 Artis: {song.artistName}
-              </p>{" "}
+              </p>
               <p className="mb-1">Album: {song.collectionName}</p>
               <p className="mb-1">Genre: {song.primaryGenreName}</p>
               <p className="mb-1">Negara: {song.country}</p>
@@ -86,12 +100,9 @@ const DetailLaguPage: React.FC = () => {
             </div>
 
             <div className="m-4 d-flex flex-column flex-md-row align-items-md-center gap-3">
-              <audio controls src={song.previewUrl} className="w-100"></audio>
-
+              <audio controls src={song.previewUrl} className="w-100" />
               <button
-                className={
-                  "btn btn-outline-light mt-2 mt-md-0 d-flex align-items-center gap-2 p-3 rounded-3"
-                }
+                className="btn btn-outline-light mt-2 mt-md-0 d-flex align-items-center gap-2 p-3 rounded-3"
                 onClick={toggleBookmark}
               >
                 {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
@@ -101,11 +112,13 @@ const DetailLaguPage: React.FC = () => {
         </div>
       </div>
       <div className="d-flex justify-content-end">
-        <button className="btn btn-light mt-3 rounded-4 " onClick={() => router.back()}>
-        Kembali Ke Halaman Sebelumnya
-      </button>
+        <button
+          className="btn btn-light mt-3 rounded-4"
+          onClick={() => router.back()}
+        >
+          Kembali Ke Halaman Sebelumnya
+        </button>
       </div>
-      
     </div>
   );
 };

@@ -5,14 +5,12 @@ import path from "path";
 
 const dbFile = path.join(process.cwd(), "db", "database.sqlite");
 
-// bikin file db kalau belum ada
 if (!fs.existsSync(dbFile)) {
   fs.writeFileSync(dbFile, "");
 }
 
 export const db = new Database(dbFile);
 
-// contoh bikin tabel kalau belum ada
 db.prepare(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
