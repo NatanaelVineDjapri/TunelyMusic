@@ -62,7 +62,7 @@ const DetailLaguPage: React.FC = () => {
     }
   };
 
-  if (!song) return <p className="text-white text-center mt-5">Loading...</p>;
+  if (!song) return <p className="text-white text-center" style={{marginTop:"45vh"}}>Loading...</p>;
 
   return (
     <div className="container" style={{ marginTop: "10vh" }}>

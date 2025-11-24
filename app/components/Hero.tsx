@@ -15,10 +15,10 @@ const Hero: React.FC = () => {
         >
           <h1 className="fw-bold text-dark text-center">
            Dengarkanlah Musik Favoritmu, <br />
-            <span className="text-success">di Saku Kamu</span> 🎵
+            <span className="text-success">di TunelyMusic</span> 🎵
           </h1>
           <p className="mt-3 fs-5 text-center">
-            Temukan lagu-lagu terbaik, buat playlist sendiri, dan nikmati musik
+            Temukan lagu-lagu terbaik, simpan lagu favorite kamu, dan nikmati musik
             tanpa batas.
           </p>
           <p>Natanael Vine Djapri - 535240042</p>

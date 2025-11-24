@@ -18,7 +18,7 @@ const LoginPage: React.FC = () => {
     try {
       await loginUser(username, password);
       localStorage.setItem("username", username);
-      router.push("/");
+      router.push("/home");
     } catch (err: any) {
       setError(err.message);
     }
@@ -30,7 +30,6 @@ const LoginPage: React.FC = () => {
       style={{ minHeight: "50vh", paddingTop:"20vh" }}
     >
       <div className="row justify-content-center align-items-center w-100">
-        {/* Kolom kiri: form */}
         <div className="col-12 col-md-6 d-flex justify-content-center">
           <div
             className="card p-4 shadow-sm"
@@ -72,7 +71,6 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Kolom kanan: gambar */}
         <div className="col-12 col-md-6 d-flex justify-content-center mt-4 mt-md-0">
           <Image
             src="/images/gmbr4.jpg"

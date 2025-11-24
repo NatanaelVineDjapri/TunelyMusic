@@ -42,7 +42,7 @@ const EditProfilePage: React.FC = () => {
               disabled
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-5">
             <label className="form-label">Username Baru</label>
             <input
               type="text"
@@ -51,7 +51,7 @@ const EditProfilePage: React.FC = () => {
               onChange={(e) => setNewUsername(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn btn-success w-100">
+          <button type="submit" className="btn btn-success w-100 mb-3">
             Simpan Perubahan
           </button>
         </form>
