@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
 
   const handleProfileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!username) {
-      e.preventDefault(); 
+      e.preventDefault();
       alert("Silakan login dulu untuk mengakses profile");
     }
   };

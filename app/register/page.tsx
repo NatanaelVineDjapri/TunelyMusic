@@ -24,11 +24,14 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="container" style={{ minHeight: "50vh", paddingTop:"20vh" }}>
+    <div
+      className="container"
+      style={{ minHeight: "50vh", paddingTop: "20vh" }}
+    >
       <div className="row justify-content-center align-items-center h-100">
         <div className="col-md-6 d-none d-md-flex justify-content-center">
           <Image
-            src="/images/gmbr3.jpg" 
+            src="/images/gmbr3.jpg"
             alt="Foto"
             width={500}
             height={390}
@@ -36,7 +39,6 @@ const RegisterPage: React.FC = () => {
           />
         </div>
 
-        {/* Kolom kanan: form */}
         <div className="col-12 col-md-6">
           <div className="card p-4 shadow-sm">
             <h2 className="mb-4 text-center">Register</h2>

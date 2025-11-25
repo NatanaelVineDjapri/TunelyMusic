@@ -8,7 +8,6 @@ export const registerUser = async (username: string, password: string) => {
   const data = await res.json();
 
   if (!res.ok) {
-    // ambil pesan error dari API
     throw new Error(data.error || "Register failed");
   }
 

@@ -1,11 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa"; // Import Icon
-import {
-  fetchComments,
-  deleteComment,
-  updateComment,
-} from "@/services/commentServices";
+import { FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa"; 
+import {fetchComments, deleteComment, updateComment} from "@/services/commentServices";
 
 interface Comment {
   id: number;

@@ -18,7 +18,7 @@ const LoginPage: React.FC = () => {
     try {
       await loginUser(username, password);
       localStorage.setItem("username", username);
-      router.push("/home");
+      window.location.href = "/home";
     } catch (err: any) {
       setError(err.message);
     }
@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
   return (
     <div
       className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: "50vh", paddingTop:"20vh" }}
+      style={{ minHeight: "50vh", paddingTop: "20vh" }}
     >
       <div className="row justify-content-center align-items-center w-100">
         <div className="col-12 col-md-6 d-flex justify-content-center">

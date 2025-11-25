@@ -7,7 +7,7 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { getSongDetail } from "@/services/iTunesServices";
 import { addBookmark, removeBookmark } from "@/services/bookmarkService";
 import CommentForm from "@/app/components/CommentForm";
-import CommentList from "@/app/components/CommentList"; // Pastikan import ini benar
+import CommentList from "@/app/components/CommentList"; 
 
 interface Song {
   trackId: number;
@@ -31,7 +31,7 @@ const DetailLaguPage: React.FC = () => {
   const [song, setSong] = useState<Song | null>(null);
   const [bookmarked, setBookmarked] = useState(false);
   const [reload, setReload] = useState(false);
-  const [currentUsername, setCurrentUsername] = useState<string>(""); // State untuk username login
+  const [currentUsername, setCurrentUsername] = useState<string>(""); 
   const router = useRouter();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const DetailLaguPage: React.FC = () => {
 
   useEffect(() => {
     if (!trackId) return;
-    
+
     const saved = localStorage.getItem(`bookmark_${trackId}`);
     setBookmarked(saved === "true");
 
@@ -123,14 +123,15 @@ const DetailLaguPage: React.FC = () => {
       <div className="bg-white mt-3 rounded-4 p-5">
         {song && (
           <>
+          <p className="fs-4 fw-bold">Komentar lagu <span className="text-success">{song.trackName}</span> </p>
             <CommentForm
               trackId={song.trackId.toString()}
               onCommentAdded={() => setReload(!reload)}
             />
-            <CommentList 
-                trackId={song.trackId.toString()} 
-                reload={reload} 
-                currentUsername={currentUsername} 
+            <CommentList
+              trackId={song.trackId.toString()}
+              reload={reload}
+              currentUsername={currentUsername}
             />
           </>
         )}

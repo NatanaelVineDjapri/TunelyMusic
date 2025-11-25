@@ -6,7 +6,11 @@ interface PaginationProps {
   totalPages: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ page, setPage, totalPages }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  page,
+  setPage,
+  totalPages,
+}) => {
   return (
     <div className="d-flex justify-content-center mt-3 flex-wrap gap-2 bg-white p-3 rounded-4">
       <button
@@ -27,7 +31,9 @@ const Pagination: React.FC<PaginationProps> = ({ page, setPage, totalPages }) =>
           return (
             <button
               key={i}
-              className={`btn ${pageNum === page ? "btn-success" : "btn-outline-success"}`}
+              className={`btn ${
+                pageNum === page ? "btn-success" : "btn-outline-success"
+              }`}
               onClick={() => setPage(pageNum)}
             >
               {pageNum}

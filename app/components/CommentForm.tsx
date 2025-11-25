@@ -7,7 +7,10 @@ interface CommentFormProps {
   onCommentAdded: () => void;
 }
 
-const CommentForm: React.FC<CommentFormProps> = ({ trackId, onCommentAdded }) => {
+const CommentForm: React.FC<CommentFormProps> = ({
+  trackId,
+  onCommentAdded,
+}) => {
   const [comment, setComment] = useState("");
   const username = localStorage.getItem("username") || "";
 

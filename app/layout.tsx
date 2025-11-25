@@ -5,7 +5,11 @@ import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -23,7 +27,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-grow-1 d-flex justify-content-center align-items-start p-4">
           {children}
         </main>
-
 
         <Footer />
       </body>

@@ -15,9 +15,8 @@ const HomePage: React.FC = () => {
 
   const [recommendedSongs, setRecommendedSongs] = useState<any[]>([]);
   const [recPage, setRecPage] = useState(1);
-  const totalPages = 40; // max 1000 lagu / 25 per page
+  const totalPages = 40;
 
-  // Load rekomendasi random
   useEffect(() => {
     const fetchRecommended = async () => {
       const queries = ["pop", "rock", "jazz", "classical", "hiphop"];
@@ -35,7 +34,6 @@ const HomePage: React.FC = () => {
 
   const handleSearch = async () => {
     if (!query) return;
-    // fetch maksimal 200 lagu sekaligus (iTunes limit)
     const results = await searchSongs(query, 200);
     setSearchResults(results);
   };
@@ -49,7 +47,9 @@ const HomePage: React.FC = () => {
         <SongSection title="Hasil Pencarian" songs={searchResults} />
       )}
 
-      <p className="mb-5 bg-white p-3 rounded-3 fw-bold text-center fs-3">Rekomendasi Musik🎵🎧</p>
+      <p className="mb-5 bg-white p-3 rounded-3 fw-bold text-center fs-3">
+        Rekomendasi Musik🎵🎧
+      </p>
       <SongSection songs={recommendedSongs} />
       <Pagination page={recPage} setPage={setRecPage} totalPages={totalPages} />
     </div>

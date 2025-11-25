@@ -12,17 +12,23 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const user = db.prepare("SELECT id FROM users WHERE username = ?").get(username);
+    const user = db
+      .prepare("SELECT id FROM users WHERE username = ?")
+      .get(username);
     if (!user) throw new Error("User tidak ditemukan");
 
-    db.prepare("DELETE FROM bookmarks WHERE user_id = ? AND track_id = ?")
-      .run(user.id, trackId);
+    db.prepare("DELETE FROM bookmarks WHERE user_id = ? AND track_id = ?").run(
+      user.id,
+      trackId
+    );
 
     return new Response(
       JSON.stringify({ message: "Bookmark berhasil dihapus" }),
       { status: 200 }
     );
   } catch (err: any) {
-    return new Response(JSON.stringify({ message: err.message }), { status: 400 });
+    return new Response(JSON.stringify({ message: err.message }), {
+      status: 400,
+    });
   }
 }

@@ -76,7 +76,6 @@ const ProfilePage: React.FC = () => {
     <div className="container" style={{ marginTop: "18vh" }}>
       <div className="card p-5 rounded-3 shadow d-flex flex-column flex-md-row gap-5">
         <div className="col-md-4 d-flex flex-column justify-content-center align-items-center mt-3">
-
           <Image
             src={"/images/pfp1.jpg"}
             alt="Profile Image"

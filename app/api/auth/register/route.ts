@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // cek dulu apakah username sudah ada
     const exists = db
       .prepare("SELECT id FROM users WHERE username = ?")
       .get(username);
