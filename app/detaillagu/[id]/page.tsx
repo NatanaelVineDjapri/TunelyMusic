@@ -6,6 +6,8 @@ import Image from "next/image";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { getSongDetail } from "@/services/iTunesServices";
 import { addBookmark, removeBookmark } from "@/services/bookmarkService";
+import CommentForm from "@/app/components/CommentForm";
+import CommentList from "@/app/components/CommentList"; // Pastikan import ini benar
 
 interface Song {
   trackId: number;
@@ -25,8 +27,11 @@ interface Song {
 const DetailLaguPage: React.FC = () => {
   const { id } = useParams();
   const trackId = Array.isArray(id) ? id[0] : id;
+
   const [song, setSong] = useState<Song | null>(null);
   const [bookmarked, setBookmarked] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [currentUsername, setCurrentUsername] = useState<string>(""); // State untuk username login
   const router = useRouter();
 
   useEffect(() => {
@@ -36,8 +41,12 @@ const DetailLaguPage: React.FC = () => {
 
   useEffect(() => {
     if (!trackId) return;
+    
     const saved = localStorage.getItem(`bookmark_${trackId}`);
     setBookmarked(saved === "true");
+
+    const user = localStorage.getItem("username");
+    if (user) setCurrentUsername(user);
   }, [trackId]);
 
   const toggleBookmark = async () => {
@@ -46,7 +55,6 @@ const DetailLaguPage: React.FC = () => {
     if (!song) return;
 
     const trackIdStr = song.trackId.toString();
-
     try {
       if (bookmarked) {
         await removeBookmark(trackIdStr, username);
@@ -62,7 +70,12 @@ const DetailLaguPage: React.FC = () => {
     }
   };
 
-  if (!song) return <p className="text-white text-center" style={{marginTop:"45vh"}}>Loading...</p>;
+  if (!song)
+    return (
+      <p className="text-white text-center" style={{ marginTop: "45vh" }}>
+        Loading...
+      </p>
+    );
 
   return (
     <div className="container" style={{ marginTop: "10vh" }}>
@@ -81,12 +94,7 @@ const DetailLaguPage: React.FC = () => {
           <div className="col-md-8 d-flex flex-column justify-content-between bg-secondary rounded-4 p-4">
             <div>
               <h2 className="fw-bold">{song.trackName}</h2>
-              <p
-                className="text-success mb-2 px-2 rounded-2"
-                style={{ display: "inline-block", backgroundColor: "white" }}
-              >
-                Artis: {song.artistName}
-              </p>
+              <p className="mb-1">Artis: {song.artistName}</p>
               <p className="mb-1">Album: {song.collectionName}</p>
               <p className="mb-1">Genre: {song.primaryGenreName}</p>
               <p className="mb-1">Negara: {song.country}</p>
@@ -111,6 +119,23 @@ const DetailLaguPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <div className="bg-white mt-3 rounded-4 p-5">
+        {song && (
+          <>
+            <CommentForm
+              trackId={song.trackId.toString()}
+              onCommentAdded={() => setReload(!reload)}
+            />
+            <CommentList 
+                trackId={song.trackId.toString()} 
+                reload={reload} 
+                currentUsername={currentUsername} 
+            />
+          </>
+        )}
+      </div>
+
       <div className="d-flex justify-content-end">
         <button
           className="btn btn-light mt-3 rounded-4"
